@@ -11,4 +11,4 @@ Dataset Yang Diambil Berdasarkan Data
 Project ini merupakan proyek Analisis Data pada dataset yang berkaitan dengan Penanganan Sampah di Kota Bandung. Selain itu terdapat model regresi untuk memprediksi pengeluaran Kompensasi Jasa Pelayanan (Rp). 
 
 ## Streamlit Cloud 
-Link Streamlit atau Dashboard : <a href='https://olah-sampah-tirta.streamlit.app/' target='_blank' title='Dashboard by Tirta Agung Jati | Streamlit'>Bike Sharing Dashboard by Tirta Agung Jati</a>
+Link Streamlit atau Dashboard : <a href='https://olah-sampah-tirta.streamlit.app/' target='_blank' title='Dashboard by Tirta Agung Jati | Streamlit'>Dashboard by Tirta Agung Jati</a>
