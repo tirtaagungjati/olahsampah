@@ -16,7 +16,7 @@ plt.style.use('dark_background')
 
 st.header('Perbandingan Gaji dengan Pengeluaran Petugas Kebersihan 💸')
 with st.sidebar:
-    st.image("garbage_collector.jpg")
+    st.image("dashboard/garbage_collector.jpg")
     with st.expander('Data Sources'):
         st.write(
             '''

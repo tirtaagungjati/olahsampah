@@ -18,7 +18,7 @@ plt.style.use('dark_background')
 
 st.header('Regression pada Kompensasi Jasa Pelayanan (Rp) 📈')
 with st.sidebar:
-    st.image("garbage_collector.jpg")
+    st.image("dashboard/garbage_collector.jpg")
     with st.expander('Data Sources'):
         st.write(
             '''
@@ -140,8 +140,8 @@ mlr_test_results = """
 st.markdown("Test MLR:" + mlr_test_results)
 
 st.header("Penjelasan model MLR dalam memprediksi Kompensasi Jasa Pelayanan (Rp) menggunakan SHAP")
-shap_train = "pages\shap_train_mlr.png"
-shap_test = "pages\shap_test_mlr.png"
+shap_train = "dashboard/pages/shap_train_mlr.png"
+shap_test = "dashboard/pages/shap_test_mlr.png"
 st.image(shap_train, caption='Ringkasan Nilai SHAP untuk Interpretasi model MLR pada Data Train', use_column_width=True)
 st.image(shap_test, caption='Ringkasan Nilai SHAP untuk Interpretasi model MLR pada Data Test', use_column_width=True)
 st.markdown("Fitur penting yang memiliki nilai rata-rata SHAP terbesar pada metode Regresi Linier Berganda (MLR) Baik pada Data Train dan Data Test pada variabel Kompensasi Jasa Pelayanan (Rp) adalah **Tonase (Ton) Sampah**.")

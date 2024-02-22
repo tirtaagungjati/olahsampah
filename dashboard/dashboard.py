@@ -22,7 +22,7 @@ sns.set(style='dark')
 plt.style.use('dark_background')
 
 with st.sidebar:
-    st.image("garbage_collector.jpg")
+    st.image("dashboard/garbage_collector.jpg")
     start_date, end_date = st.date_input(
         label='Rentang Waktu Data',
         min_value=min_date,
