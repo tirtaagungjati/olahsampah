@@ -36,6 +36,10 @@ with st.sidebar:
             '''
         )
 
+st.header("Correlation Tiap Tiap Feature Yang Ada Pada Dataset Sampah")
+correlation_matrix = "dashboard/pages/correlation Matrix.png"
+st.image(correlation_matrix, use_column_width=True)
+
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=data_sampah['Date'],y=data_sampah['Kompensasi Jasa Pelayanan (Rp)'], mode='lines', name='Kompensasi Jasa Pelayanan (Rp)'))
 fig.add_trace(go.Scatter(x=Kompensasi_Jasa_pred['Date'],y=Kompensasi_Jasa_pred['0'], mode='lines', name='KJP Pred With MLR'))

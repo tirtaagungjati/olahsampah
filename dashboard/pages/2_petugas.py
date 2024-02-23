@@ -39,7 +39,7 @@ fig.add_trace(go.Scatter(x=df['Tahun'], y=df['UMK Kota Bandung (Rp)'], mode='lin
 fig.add_trace(go.Scatter(x=df['Tahun'], y=df['Rata-rata Pengeluaran Perkapita Sebulan (Rp)'], mode='lines+markers', name='Rata-rata Pengeluaran Perkapita Sebulan (Rp)'))
 fig.add_trace(go.Scatter(x=df['Tahun'], y=df['Uang Bersih'], mode='lines+markers', name='Uang Bersih'))
 fig.update_layout(
-    title='Perbandingan UMK Kota Bandung, Rata-rata Pengeluaran Perkapita Sebulan, dan Uang Bersih dari Tahun ke Tahun',
+    title='Plot UMK Kota Bandung, Rata-rata Pengeluaran Perkapita Sebulan, dan Uang Bersih',
     xaxis=dict(title='Tahun'),
     yaxis=dict(title='Jumlah (Rp)'),
 )
