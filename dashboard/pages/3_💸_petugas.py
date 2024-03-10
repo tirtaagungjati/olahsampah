@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
 import plotly.graph_objects as go
+st.set_page_config(
+    page_title="Kesejahteraan Petugas",
+    page_icon="💸"
+)
 
 df = pd.read_excel("Data/data_gaji_pengeluaran.xlsx")
 df['Uang Bersih'] = df['UMK Kota Bandung (Rp)'] - df['Rata-rata Pengeluaran Perkapita Sebulan (Rp)']
@@ -24,6 +28,8 @@ with st.sidebar:
             2. [Badan Pusat Statistik](https://bandungkota.bps.go.id/indicator/5/2042/2/rata-rata-pengeluaran-perkapita-sebulan-menurut-kelompok-makanan-dan-non-makanan-di-kota-bandung.html) | [Additional Link](https://jabar.bps.go.id/statictable/2022/07/08/645/rata-rata-pengeluaran-per-kapita-sebulan-makanan-dan-bukan-makanan-menurut-kabupaten-kota-di-provinsi-jawa-barat-rupiah-2020-dan-2021.html)
             3. [Kompas](https://regional.kompas.com/read/2022/09/12/183604178/upah-minimum-kota-bandung-dari-tahun-2012-hingga-2022)
             4. [OKEZONE](https://economy.okezone.com/read/2022/05/16/622/2594875/intip-gaji-petugas-kebersihan-di-bandung-dan-jakarta)
+            5. [DETIK](https://www.detik.com/jabar/berita/d-6724978/produksi-sampah-di-bandung-meningkat-tiap-tahun)
+            6. [Skripsi](https://elibrary.unikom.ac.id/id/eprint/7744/7/UNIKOM_LUKAS%20ALBERTO%20NDOA_BAB%201.pdf)
             '''
         )
     st.write(
@@ -33,7 +39,11 @@ with st.sidebar:
             [LinkedIn](https://www.linkedin.com/in/tirta-agung-jati)
             '''
         )
-    
+font_size = "20px"
+st.markdown(f"<p style='font-size: {font_size};'>Dalam perjalanan melihat data yang telah dianalisis pada dashboard. Di Kota Bandung, petugas kebersihan, pahlawan tak terlihat, menjalani kehidupan dengan gaji yang berusaha sesuai dengan standar Upah Minimum Kota (UMK).</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='font-size: {font_size};'>Namun, ketika kita melibatkan data UMK, Rata-rata Pengeluaran Perkapita Sebulan, dan Uang Bersih, terlihat bahwa keberlanjutan hidup mereka menghadapi tantangan. Grafik memperlihatkan keseimbangan antara penghasilan dan pengeluaran, memberikan wawasan mendalam tentang bagaimana mereka menjalani kehidupan sehari-hari.</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='font-size: {font_size};'>Meskipun petugas kebersihan berjuang dengan biaya hidup yang mungkin tidak selalu sebanding dengan pekerjaan mulianya, analisis ini membawa kita untuk lebih memahami dan menghargai kisah hidup mereka. Ini adalah panggilan untuk mencari solusi dan meningkatkan kesejahteraan para pahlawan tanpa seragam, agar kebersihan kota tercinta tetap terjaga sambil memberikan mereka kehidupan yang lebih baik.</p>", unsafe_allow_html=True)
+
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=df['Tahun'], y=df['UMK Kota Bandung (Rp)'], mode='lines+markers', name='UMK Kota Bandung (Rp)'))
 fig.add_trace(go.Scatter(x=df['Tahun'], y=df['Rata-rata Pengeluaran Perkapita Sebulan (Rp)'], mode='lines+markers', name='Rata-rata Pengeluaran Perkapita Sebulan (Rp)'))

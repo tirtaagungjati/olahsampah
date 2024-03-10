@@ -7,6 +7,11 @@ import seaborn as sns
 import datetime
 import plotly.graph_objects as go
 
+st.set_page_config(
+    page_title="Prediksi Kompensasi",
+    page_icon="📈"
+)
+
 data_sampah = pd.read_csv("dashboard/pages/data_sampah.csv")
 Kompensasi_Jasa_pred = pd.read_csv("dashboard/pages/kjp_with_mlr.csv")
 Kompensasi_Jasa_pred_with_randomforest = pd.read_csv("dashboard/pages/kjp_with_randomforest.csv")
@@ -26,6 +31,8 @@ with st.sidebar:
             2. [Badan Pusat Statistik](https://bandungkota.bps.go.id/indicator/5/2042/2/rata-rata-pengeluaran-perkapita-sebulan-menurut-kelompok-makanan-dan-non-makanan-di-kota-bandung.html) | [Additional Link](https://jabar.bps.go.id/statictable/2022/07/08/645/rata-rata-pengeluaran-per-kapita-sebulan-makanan-dan-bukan-makanan-menurut-kabupaten-kota-di-provinsi-jawa-barat-rupiah-2020-dan-2021.html)
             3. [Kompas](https://regional.kompas.com/read/2022/09/12/183604178/upah-minimum-kota-bandung-dari-tahun-2012-hingga-2022)
             4. [OKEZONE](https://economy.okezone.com/read/2022/05/16/622/2594875/intip-gaji-petugas-kebersihan-di-bandung-dan-jakarta)
+            5. [DETIK](https://www.detik.com/jabar/berita/d-6724978/produksi-sampah-di-bandung-meningkat-tiap-tahun)
+            6. [Skripsi](https://elibrary.unikom.ac.id/id/eprint/7744/7/UNIKOM_LUKAS%20ALBERTO%20NDOA_BAB%201.pdf)
             '''
         )
     st.write(

@@ -6,7 +6,13 @@ import streamlit as st
 import datetime
 import plotly.graph_objects as go
 from scipy import stats
+
+st.set_page_config(
+    page_title="Dashboard Olah Sampah",
+    page_icon="🚛"
+)
 df = pd.read_csv("dashboard/main_data.csv")
+sc_df = pd.read_excel("dashboard/second_data.xlsx")
 df['Date'] = pd.to_datetime(df.assign(day=1, month=df['No'], year=df['Tahun'])[['year', 'month', 'day']])
 min_date = df['Date'].min()
 max_date = df['Date'].max()
@@ -16,7 +22,6 @@ def perhitungan_total_tonase(data_sampah):
     ttl_sampah_tahunan = ttl_sampah_tahunan.reset_index()
     ttl_sampah_tahunan.columns = ["Tahun", "Total Tonase (Ton)"]
     return ttl_sampah_tahunan
-
 
 sns.set(style='dark')
 plt.style.use('dark_background')
@@ -36,6 +41,8 @@ with st.sidebar:
             2. [Badan Pusat Statistik](https://bandungkota.bps.go.id/indicator/5/2042/2/rata-rata-pengeluaran-perkapita-sebulan-menurut-kelompok-makanan-dan-non-makanan-di-kota-bandung.html) | [Additional Link](https://jabar.bps.go.id/statictable/2022/07/08/645/rata-rata-pengeluaran-per-kapita-sebulan-makanan-dan-bukan-makanan-menurut-kabupaten-kota-di-provinsi-jawa-barat-rupiah-2020-dan-2021.html)
             3. [Kompas](https://regional.kompas.com/read/2022/09/12/183604178/upah-minimum-kota-bandung-dari-tahun-2012-hingga-2022)
             4. [OKEZONE](https://economy.okezone.com/read/2022/05/16/622/2594875/intip-gaji-petugas-kebersihan-di-bandung-dan-jakarta)
+            5. [DETIK](https://www.detik.com/jabar/berita/d-6724978/produksi-sampah-di-bandung-meningkat-tiap-tahun)
+            6. [Skripsi](https://elibrary.unikom.ac.id/id/eprint/7744/7/UNIKOM_LUKAS%20ALBERTO%20NDOA_BAB%201.pdf)
             '''
         )
     st.write(
@@ -48,19 +55,75 @@ with st.sidebar:
 
 main_df = df[(df['Date'] >= str(start_date)) & (df['Date'] <= str(end_date))]
 ttl_sampah_tahunan = perhitungan_total_tonase(main_df)
+font_size = "20px"
+st.header('Darurat Penanganan Sampah di Kota Bandung ♻️')
+st.markdown(f"<p style='font-size: {font_size};'>Kota Bandung masih menyatakan darurat sampah hingga 26 Desember 2023 nanti. Hal ini ditetapkan dalam Keputusan Wali Kota Bandung nomor 658.1/Kep.2523-DLH/2023 tentang Penetapan Situasi Darurat Pengelolaan Sampah.</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='font-size: {font_size};'>Achmad Nugraha, Wakil Ketua II DPRD Kota Bandung, menyoroti lambannya langkah Pemkot Bandung dalam menangani situasi ini, khususnya terkait rencana Pembangkit Listrik Tenaga Sampah (PLTSa) yang belum terealisasi.</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='font-size: {font_size};'>Ia berpendapat bahwa keberhasilan menyelesaikan permasalahan sampah di kota ini memerlukan tindakan serius dari pemerintah, terutama dalam menjalankan kebijakan yang telah ada, seperti Peraturan Daerah tentang Tata Ruang Wilayah.</p>", unsafe_allow_html=True)
+with st.expander('Sumber Berita'):
+    st.write("[Berita 1](https://www.detik.com/jabar/berita/d-7019155/kritik-pedas-wakil-ketua-dprd-ke-pemkot-bandung-soal-penanganan-sampah)")
+    st.write("[Berita 2](https://www.detik.com/jabar/berita/d-7013615/kota-bandung-masih-darurat-sampah)")
 
-st.header('Penanganan Sampah di Kota Bandung ♻️')
-
-st.subheader("Grafik Total Tonase Sampah Tahunan")
-fig = go.Figure(data=[
-    go.Bar(name='Tonase (Ton)', x=ttl_sampah_tahunan["Tahun"], y=ttl_sampah_tahunan["Total Tonase (Ton)"])
-])
+st.subheader("Perbandingan Produksi dan Penanganan Sampah")
+persentase_penanganan = [round((ps / ps_total) * 100, 2) for ps, ps_total in zip(sc_df["Capaian Penanganan Sampah (Ton)"], sc_df["Produksi Sampah (Ton)"])]
+fig = go.Figure()
+fig.add_trace(go.Bar(
+    x=sc_df["Tahun"],
+    y=sc_df["Produksi Sampah (Ton)"],
+    name='Produksi Sampah (Ton)',
+))
+fig.add_trace(go.Bar(
+    x=sc_df["Tahun"],
+    y=sc_df["Capaian Penanganan Sampah (Ton)"],
+    name='Capaian Penanganan Sampah (Ton)',
+))
+for i, txt in enumerate(persentase_penanganan):
+    fig.add_annotation(
+        x=sc_df["Tahun"][i],
+        y=sc_df["Capaian Penanganan Sampah (Ton)"][i],
+        text=f'{txt}%',
+        showarrow=True,
+        arrowhead=5,
+        arrowwidth=2,
+        arrowcolor='red',
+        font=dict(size=15, color='yellow')
+    )
 fig.update_layout(
-    xaxis=dict(title='Tahun'),
-    yaxis=dict(title='Tonase (Ton)'),
-    barmode='group'
+    xaxis_title='Tahun',
+    yaxis_title='Jumlah (Ton)',
+    barmode='group',
 )
 st.plotly_chart(fig)
+st.markdown(f"<p style='font-size: {font_size};'>Tiap tahun terlihat terjadi peningkatan persentase capaian penanganan sampah yang dikelola. Hal ini terjadi karena produksi sampah yang dihasilkan oleh masyarakat setiap tahunnya menurun. Namun, jumlah sampah yang dapat dikelola tiap tahun bisa dikatakan stagnan, berkisar antara 470-485 ribu ton sampah.</p>", unsafe_allow_html=True)
+
+st.subheader("Total Kompensasi Jasa Pelayanan (Rp) Per Tahun")
+fig_kompensasi = go.Figure()
+fig_kompensasi.add_trace(go.Bar(
+    x=sc_df["Tahun"],
+    y=sc_df["Total Kompensasi Jasa Pelayanan (Rp)"],
+    name='Total Kompensasi Jasa Pelayanan (Rp)',
+    marker=dict(color='green')
+))
+fig_kompensasi.update_layout(
+    xaxis_title='Tahun',
+    yaxis_title='Jumlah (Rp)',
+)
+st.plotly_chart(fig_kompensasi)
+st.markdown(f"<p style='font-size: {font_size};'>Tampaknya hal ini bisa terjadi dikarenakan anggaran pengeluaran Kompensasi Jasa Pelayanan (Rp) per tahun di Kota Bandung stagnan atau tidak adanya kenaikan yang signifikan untuk mengatasi permasalahan sampah di kota ini.</p>", unsafe_allow_html=True)
+
+st.subheader("Pengeluaran Kompensasi Jasa Pelayanan Per Ton Sampah (Rp) Per Tahun")
+fig_kompensasi = go.Figure()
+fig_kompensasi.add_trace(go.Bar(
+    x=sc_df["Tahun"],
+    y=sc_df["Kompensasi Per Ton Sampah (Rp)"],
+    name='Kompensasi Per Ton Sampah (Rp)',
+    marker=dict(color='orange')
+))
+fig_kompensasi.update_layout(
+    xaxis_title='Tahun',
+    yaxis_title='Jumlah (Rp)',
+)
+st.plotly_chart(fig_kompensasi)
 
 st.subheader("Plot Pola Tonase Sampah Berdasarkan Bulan")
 fig = go.Figure()
@@ -69,7 +132,13 @@ for tahun, data_tahun in main_df.groupby('Tahun'):
 fig.update_layout(xaxis_title='Bulan',
                   yaxis_title='Tonase (Ton)')
 st.plotly_chart(fig)
-
+with st.expander('Keterangan'):
+    st.write("Tahun 2017: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2018: Tertinggi Bulan November Terendah Bulan Februari")
+    st.write("Tahun 2019: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2020: Tertinggi Bulan Januari Terendah Bulan Mei")
+    st.write("Tahun 2021: Tertinggi Bulan Januari Terendah Bulan November")
+    
 st.subheader("Pola Ritasi (Rit) Berdasarkan Bulan untuk Setiap Tahun")
 fig = go.Figure()
 for tahun, data_tahun in main_df.groupby('Tahun'):
@@ -77,7 +146,13 @@ for tahun, data_tahun in main_df.groupby('Tahun'):
 fig.update_layout(xaxis_title='Bulan',
                   yaxis_title='Ritasi (Rit)')
 st.plotly_chart(fig)
-
+with st.expander('Keterangan'):
+    st.write("Tahun 2017: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2018: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2019: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2020: Tertinggi Bulan Januari Terendah Bulan Mei")
+    st.write("Tahun 2021: Tertinggi Bulan Januari Terendah Bulan November")
+    
 st.subheader("Pola Kompensasi Jasa Pelayanan (Rp) Sampah Berdasarkan Bulan untuk Setiap Tahun")
 fig = go.Figure()
 for tahun, data_tahun in main_df.groupby('Tahun'):
@@ -85,7 +160,13 @@ for tahun, data_tahun in main_df.groupby('Tahun'):
 fig.update_layout(xaxis_title='Bulan',
                   yaxis_title='Kompensasi Jasa Pelayanan (Rp)')
 st.plotly_chart(fig)
-
+with st.expander('Keterangan'):
+    st.write("Tahun 2017: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2018: Tertinggi Bulan November Terendah Bulan Februari")
+    st.write("Tahun 2019: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2020: Tertinggi Bulan Januari Terendah Bulan Mei")
+    st.write("Tahun 2021: Tertinggi Bulan Januari Terendah Bulan November")
+    
 st.subheader("Pola Kompensasi Dampak Negatif Sampah Berdasarkan Bulan untuk Setiap Tahun")
 fig = go.Figure()
 for tahun, data_tahun in main_df.groupby('Tahun'):
@@ -93,6 +174,12 @@ for tahun, data_tahun in main_df.groupby('Tahun'):
 fig.update_layout(xaxis_title='Bulan',
                   yaxis_title='Kompensasi Dampak Negatif (Rp)')
 st.plotly_chart(fig)
+with st.expander('Keterangan'):
+    st.write("Tahun 2017: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2018: Tertinggi Bulan Desember Terendah Bulan Februari")
+    st.write("Tahun 2019: Tertinggi Bulan Oktober Terendah Bulan Februari")
+    st.write("Tahun 2020: Tertinggi Bulan Desember Terendah Bulan Februari")
+    st.write("Tahun 2021: Tertinggi Bulan Januari Terendah Bulan November")
 
 puncak_tonase = df.loc[df.groupby('Tahun')['Tonase (Ton)'].idxmax()]
 puncak = puncak_tonase[['Bulan', 'Tahun', 'Tonase (Ton)']]
@@ -101,11 +188,23 @@ st.table(puncak)
 
 kenaikan_tonase = df.loc[df.groupby('Tahun')['KenaikanPenurunanTonase (Ton)'].idxmax()]
 kenaikan = kenaikan_tonase[['Bulan', 'Tahun', 'KenaikanPenurunanTonase (Ton)', 'KenaikanPenurunanTonase (%)']]
+kenaikan = kenaikan.rename(columns={
+    'Bulan': 'Bulan',
+    'Tahun': 'Tahun',
+    'KenaikanPenurunanTonase (Ton)': 'Kenaikan Tonase Sampah (Ton)',
+    'KenaikanPenurunanTonase (%)': 'Persentase Kenaikan Sampah (%)'
+})
 st.subheader("Puncak Kenaikan Tonase Sampah Tiap Tahun")
 st.table(kenaikan)
 
 penurunan_tonase = df.loc[df.groupby('Tahun')['KenaikanPenurunanTonase (Ton)'].idxmin()]
 penurunan = penurunan_tonase[['Bulan', 'Tahun', 'KenaikanPenurunanTonase (Ton)', 'KenaikanPenurunanTonase (%)']]
+penurunan = penurunan.rename(columns={
+    'Bulan': 'Bulan',
+    'Tahun': 'Tahun',
+    'KenaikanPenurunanTonase (Ton)': 'Penurunan Tonase Sampah (Ton)',
+    'KenaikanPenurunanTonase (%)': 'Persentase Penurunan Sampah (%)'
+})
 st.subheader("Lembah Penurunan Tonase Sampah Tiap Tahun")
 st.table(penurunan)
 
