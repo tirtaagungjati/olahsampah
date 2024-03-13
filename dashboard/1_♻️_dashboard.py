@@ -57,7 +57,7 @@ main_df = df[(df['Date'] >= str(start_date)) & (df['Date'] <= str(end_date))]
 ttl_sampah_tahunan = perhitungan_total_tonase(main_df)
 font_size = "20px"
 st.header('Darurat Penanganan Sampah di Kota Bandung ♻️')
-st.markdown(f"<p style='font-size: {font_size};'>Kota Bandung masih menyatakan darurat sampah hingga 26 Desember 2023 nanti. Hal ini ditetapkan dalam Keputusan Wali Kota Bandung nomor 658.1/Kep.2523-DLH/2023 tentang Penetapan Situasi Darurat Pengelolaan Sampah.</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='font-size: {font_size};'>Kota Bandung mulai tanggal 26 Oktober 2023 sampai 26 Desember 2023 menyatakan darurat sampah. Hal ini ditetapkan dalam Keputusan Wali Kota Bandung nomor 658.1/Kep.2523-DLH/2023 tentang Penetapan Situasi Darurat Pengelolaan Sampah.</p>", unsafe_allow_html=True)
 st.markdown(f"<p style='font-size: {font_size};'>Achmad Nugraha, Wakil Ketua II DPRD Kota Bandung, menyoroti lambannya langkah Pemkot Bandung dalam menangani situasi ini, khususnya terkait rencana Pembangkit Listrik Tenaga Sampah (PLTSa) yang belum terealisasi.</p>", unsafe_allow_html=True)
 st.markdown(f"<p style='font-size: {font_size};'>Ia berpendapat bahwa keberhasilan menyelesaikan permasalahan sampah di kota ini memerlukan tindakan serius dari pemerintah, terutama dalam menjalankan kebijakan yang telah ada, seperti Peraturan Daerah tentang Tata Ruang Wilayah.</p>", unsafe_allow_html=True)
 with st.expander('Sumber Berita'):
